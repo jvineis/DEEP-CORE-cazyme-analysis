@@ -1,0 +1,11 @@
+name: hmmer
+channels:
+  - bioconda
+  - salilab
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - hmmer=3.3.2=he1b5a44_0
+  - libgcc-ng=9.1.0=hdf63c60_0
+  - libstdcxx-ng=9.1.0=hdf63c60_0
+prefix: /home/vineis.j/miniconda3/envs/hmmer
