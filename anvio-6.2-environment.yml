@@ -373,4 +373,4 @@ dependencies:
   - zipp=3.1.0=py_0
   - zlib=1.2.11=h7b6447c_3
   - zstd=1.4.4=h3b9ef0a_2
-prefix: /home/vineis.j/miniconda3/envs/anvio-6.2
+#prefix: /home/vineis.j/miniconda3/envs/anvio-6.2
