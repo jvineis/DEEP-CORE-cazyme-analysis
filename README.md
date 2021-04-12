@@ -51,6 +51,8 @@ Analysis of short metagenomic sequencing reads for carbohydrate utilization
     conda env create -f anvio-environment.yml
     conda env create -f 
 
+## Now we are ready to annotate the assembled contigs reconstructed by JGI for genes related to carbohydrate use in the CAZyme database.
+
 
 http://bcb.unl.edu/dbCAN2/download/Databases/
 
