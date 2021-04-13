@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=1
+#SBATCH --mem=20GB
+#SBATCH --time=02:00:00
+#SBATCH --partition=short
+#SBATCH --array=1-55
+
+SAMPLE=$(sed -n "$SLURM_ARRAY_TASK_ID"p x_sample-names.txt)
+
+##This step may have been completed for various other reasons.. check to see if the dbs already exist before running another one
+#anvi-gen-contigs-database -f /work/jennifer.bowen/JOE/DEEP-CORE-GLOBUS-DOWNLOAD/${SAMPLE}/QC_and_Genome_Assembly/final.contigs.fasta -o assembly-dbs/s_${SAMPLE}.db
+
+anvi-export-gene-calls -c assembly-dbs/s_${SAMPLE}.db -o assembly-dbs/s_${SAMPLE}-prodigal.txt --gene-caller prodigal
+
+python x_convert-anvio-prodigal-hits-to-faa.py -i assembly-dbs/s_${SAMPLE}-prodigal.txt -o assembly-dbs/s_${SAMPLE}-prodigal.faa
