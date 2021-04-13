@@ -75,7 +75,7 @@ Then you can use the script attached to combine multiple genomes into a single p
 python combine-cazy-tables.py samples.txt
 
 
-## Now we can create our contig databases and use anvio (https://merenlab.org/software/anvio/) to label our 
+## Now we can create our contig databases and use anvio (https://merenlab.org/software/anvio/) to identify genes in our samples and prepare them for comparison with the CAZY database
 
 For this part we need to make sure we have the text file with sample names 'x_sample-names.txt' ini our working directory, so that we can apply the code in our bash file 'x_run-CAZY.shx' to all of the samples. In your working directory you should also create a new directory called "assembly-dbs"
 
