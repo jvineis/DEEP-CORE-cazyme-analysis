@@ -73,3 +73,8 @@ for i in `cat samples.txt `; do cat $i'.out.dm.ps' | awk '$5<1e-15&&$10>0.35' > 
 
 Then you can use the script attached to combine multiple genomes into a single presence absence table of hits. Something like this... where "samples.txt" is a text file containing a single column of genome names.. 
 python combine-cazy-tables.py samples.txt
+
+
+## Now we can use anvio (https://merenlab.org/software/anvio/) to search our samples for gene sequences. 
+
+In your
