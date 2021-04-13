@@ -75,6 +75,29 @@ Then you can use the script attached to combine multiple genomes into a single p
 python combine-cazy-tables.py samples.txt
 
 
-## Now we can use anvio (https://merenlab.org/software/anvio/) to search our samples for gene sequences. 
+## Now we can create our contig databases and use anvio (https://merenlab.org/software/anvio/) to label our 
 
-In your
+For this part we need to make sure we have the text file with sample names 'x_sample-names.txt' ini our working directory, so that we can apply the code in our bash file 'x_run-CAZY.shx' to all of the samples. In your working directory you should also create a new directory called "assembly-dbs"
+
+To begin your anvio session, use:
+
+    conda activate anvio-6.2
+
+View and edit the bash file by using the command:
+
+    emacs x_run-CAZY.shx
+
+This file can be run using the command 
+
+    sbatch x_run-CAZY.shx
+    
+which creates anvio databases using the first line by taking fasta files and turning them into .db files
+
+    anvi-gen-contigs-database -f /work/jennifer.bowen/JOE/DEEP-CORE-GLOBUS-DOWNLOAD/${SAMPLE}/QC_and_Genome_Assembly/final.contigs.fasta -o assembly-dbs/s_${SAMPLE}.db
+
+applys anvio in the second line and creates text file output with genes that have been identified in the contigs (hits)
+
+    anvi-export-gene-calls -c assembly-dbs/s_${SAMPLE}.db -o assembly-dbs/s_${SAMPLE}-prodigal.txt --gene-caller prodigal
+    
+and in the third line applys 'x_convert-anvio-prodigal-hits-to-faa.py' to the text output files and converts them to faa files so that their format is friendly for comparison with the CAZY database.
+
