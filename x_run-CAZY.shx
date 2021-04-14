@@ -10,8 +10,13 @@
 SAMPLE=$(sed -n "$SLURM_ARRAY_TASK_ID"p x_sample-names.txt)
 
 ##This step may have been completed for various other reasons.. check to see if the dbs already exist before running another one
+
 #anvi-gen-contigs-database -f /work/jennifer.bowen/JOE/DEEP-CORE-GLOBUS-DOWNLOAD/${SAMPLE}/QC_and_Genome_Assembly/final.contigs.fasta -o assembly-dbs/s_${SAMPLE}.db
 
-anvi-export-gene-calls -c assembly-dbs/s_${SAMPLE}.db -o assembly-dbs/s_${SAMPLE}-prodigal.txt --gene-caller prodigal
+#anvi-export-gene-calls -c assembly-dbs/s_${SAMPLE}.db -o assembly-dbs/s_${SAMPLE}-prodigal.txt --gene-caller prodigal
 
-python x_convert-anvio-prodigal-hits-to-faa.py -i assembly-dbs/s_${SAMPLE}-prodigal.txt -o assembly-dbs/s_${SAMPLE}-prodigal.faa
+python x_convert-anvio-prodigal-hits-to-faa.py --i assembly-dbs/s_${SAMPLE}-prodigal.txt --o assembly-dbs/s_${SAMPLE}-prodigal.faa
+
+hmmscan --domtblout assembly-dbs/s_${SAMPLE}-cazy-out.dm /work/jennifer.bowen/DBs/CAZY/dbCAN-fam-HMMs.txt assembly-dbs/s_${SAMPLE}-prodigal.faa > assembly-dbs/s_${SAMPLE}-cazy.out
+
+bash /work/jennifer.bowen/DBs/CAZY/hmmscan-parser.sh assembly-dbs/s_${SAMPLE}-cazy-out.dm > assembly-dbs/s_${SAMPLE}-cazy-out-dm.ps
