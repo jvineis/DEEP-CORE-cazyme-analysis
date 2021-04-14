@@ -48,34 +48,13 @@ Analysis of short metagenomic sequencing reads for carbohydrate utilization
     srun -p short -N 1 -n 16 --pty /bin/bash
     source ~/anaconda3/bin/activate
     conda update conda -y
-    conda env create -f anvio-environment.yml
+    conda env create -f anvio-6.2-environment.yml
     conda env create -f 
 
-## Now we are ready to annotate the assembled contigs reconstructed by JGI for genes related to carbohydrate use in the CAZyme database.
+###### need to create an env for anvi 7.0
+## Now we are ready to annotate the assembled contigs reconstructed by JGI for genes related to carbohydrate use in the CAZyme database
 
-
-http://bcb.unl.edu/dbCAN2/download/Databases/
-
-You will need the "tools" directory, stp.hmm, tf-1.hmm, tf-2.hmm
-
-The directions for handling running the search can be found in the readme file within this directory.
-http://bcb.unl.edu/dbCAN2/download/Databases/dbCAN-old@UGA/
-
-The steps to call the cazymes begins with gene calling for each of your genome bins (something like this)
-for i in `cat samples.txt `; do prodigal -i $i'-contigs.fa' -p meta -a $i'-contigs.faa'; done
-
-Then run the hmm search against the cazyme database
-for i in `cat samples.txt `; do hmmscan --domtblout $i'-out.dm' /Users/joevineis/scripts/databas/dbCAN2/dbCAN-HMMdb-V7.txt $i'-contigs.faa' > $i'-cazy.out'; done
-
-Then parse the output and filter for quality hits only 
-for i in `cat samples.txt `; do python /Users/joevineis/scripts/databas/dbCAN2/tools/hmmscan-parser $i'-out.dm' > $i'.out.dm.ps' ; done
-for i in `cat samples.txt `; do cat $i'.out.dm.ps' | awk '$5<1e-15&&$10>0.35' > $i'-cazy-stringent-hits.txt'; done
-
-Then you can use the script attached to combine multiple genomes into a single presence absence table of hits. Something like this... where "samples.txt" is a text file containing a single column of genome names.. 
-python combine-cazy-tables.py samples.txt
-
-
-## Now we can create our contig databases and use anvio (https://merenlab.org/software/anvio/) to identify genes in our samples and prepare them for comparison with the CAZY database
+## Create our contig databases and use anvio (https://merenlab.org/software/anvio/) to identify genes in our samples and prepare them for comparison with the CAZY database
 
 For this part we need to make sure we have the text file with sample names 'x_sample-names.txt' ini our working directory, so that we can apply the code in our bash file 'x_run-CAZY.shx' to all of the samples. In your working directory you should also create a new directory called "assembly-dbs"
 
@@ -103,10 +82,19 @@ and in the third line applys 'x_convert-anvio-prodigal-hits-to-faa.py' to the te
 
     sbatch x_run-CAZY.shx
 
-Once this has finished running, we will start a new session and activate the hmmer tool using: 
+you can check the status of your jobs using the "squeue" command. See example below. 
+ 
+    squeue | grep username
 
+Once this has finished running, we will start a new session and activate the hmmer tool using:  
+
+    conda deactivate
     conda activate hmmer
     
-and add the following code to use hmmer, running the script with all other lines except the following commented out. Hmmer is a tool used for sequence alignments
+Uncomment the following code to use hmmer, running the script with all other lines except the following commented out. Hmmer is a tool used for sequence alignments
 
     hmmscan --domtblout x_ANVIO-assembly-dbs/s_${SAMPLE}-cazy-out.dm /work/jennifer.bowen/DBs/CAZY/dbCAN-fam-HMMs.txt x_ANVIO-assembly-dbs/s_${SAMPLE}-prodigal.faa > x_ANVIO-assembly-dbs/s_${SAMPLE}-cazy.out
+    
+
+    
+    
