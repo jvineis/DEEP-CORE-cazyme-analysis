@@ -17,5 +17,5 @@ outfile = open(args.o, 'w')
 for line in open(args.i, 'r'):
     x = line.strip().split('\t')
     name = '_'.join(x[0:4])
-    outfile.write(">"+name+'\n'+x[9]+'\n')
+    outfile.write(">"+name+'\n'+x[8]+'\n')
     
