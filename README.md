@@ -1,6 +1,14 @@
 # DEEP-CORE-cazyme-analysis
 Analysis of short metagenomic sequencing reads for carbohydrate utilization
 
+## We will be uploading files to the remote server during this project using 'scp', 'rsync', or 'wget', while in the directory you want the transer the file to.
+
+    wget 'url'
+    scp 'local file location' 'remote server address'
+    rsync {NOT SURE}
+    
+scp and rsync (i think?) may also be used to securely copy files from the server to your local computer.
+
 ## First, we need to create an environment that contains all of the correct versions of the software that we want to use. We will use a conda environment to accomplish this. Here is the best way to get conda installed in your home environment.
 
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
@@ -78,7 +86,30 @@ applys anvio in the second line and creates text file output with genes that hav
 
     anvi-export-gene-calls -c assembly-dbs/s_${SAMPLE}.db -o assembly-dbs/s_${SAMPLE}-prodigal.txt --gene-caller prodigal
     
-and in the third line applys 'x_convert-anvio-prodigal-hits-to-faa.py' to the text output files and converts them to faa files so that their format is friendly for comparison with the CAZY database. Sumbit the bash script with all of these lines using the command:
+and in the third line applys 'x_convert-anvio-prodigal-hits-to-faa.py' to the text output files and converts them to faa files so that their format is friendly for comparison with the CAZY database. 
+
+    #!/usr/bin/env python
+
+    import argparse
+    ## 
+
+    parser = argparse.ArgumentParser(description='''convert the txt file output from anvi-export-gene-calls into a faa fasta file format.''')
+    parser.add_argument('--i', help='the resulting file from the anvi-export-gene-calls command')
+    parser.add_argument('--o', help='the name you want to give to your beautiful fasta format file')
+    args=parser.parse_args()
+
+    # Create an empty dictionay for the elements in each line of the anvi-export-gene-calls table
+    seq_dict = {}
+
+    # Create a empty file for your output. 
+    outfile = open(args.o, 'w')
+
+    for line in open(args.i, 'r'):
+        x = line.strip().split('\t')
+        name = '_'.join(x[0:4])
+    outfile.write(">"+name+'\n'+x[8]+'\n')
+
+Sumbit the bash script with all of these lines using the command:
 
     sbatch x_run-CAZY.shx
 
