@@ -99,5 +99,14 @@ applys anvio in the second line and creates text file output with genes that hav
 
     anvi-export-gene-calls -c assembly-dbs/s_${SAMPLE}.db -o assembly-dbs/s_${SAMPLE}-prodigal.txt --gene-caller prodigal
     
-and in the third line applys 'x_convert-anvio-prodigal-hits-to-faa.py' to the text output files and converts them to faa files so that their format is friendly for comparison with the CAZY database.
+and in the third line applys 'x_convert-anvio-prodigal-hits-to-faa.py' to the text output files and converts them to faa files so that their format is friendly for comparison with the CAZY database. Sumbit the bash script with all of these lines using the command:
 
+    sbatch x_run-CAZY.shx
+
+Once this has finished running, we will start a new session and activate the hmmer tool using: 
+
+    conda activate hmmer
+    
+and add the following code to use hmmer, running the script with all other lines except the following commented out. Hmmer is a tool used for sequence alignments
+
+    hmmscan --domtblout x_ANVIO-assembly-dbs/s_${SAMPLE}-cazy-out.dm /work/jennifer.bowen/DBs/CAZY/dbCAN-fam-HMMs.txt x_ANVIO-assembly-dbs/s_${SAMPLE}-prodigal.faa > x_ANVIO-assembly-dbs/s_${SAMPLE}-cazy.out
