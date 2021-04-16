@@ -177,6 +177,9 @@ Uncomment the following code to use hmmer, running the script with all other lin
 
     sbatch x_run-anvio-hmm-matrix.shx
     
-### Lets have a look at the resulting matrix using R so that we can see how the carbohydrate usage genes are distributed among samples. It will be helpful to have some meta data when looking at things in R.. Just so happens that I have placed a metadata file in this git repository that contains a lot of useful information about each of the samples. Here are the lines that you need to run in R to begin the data exploration.. I find this to be truly enjoyable!
+### Lets have a look at the resulting matrix using R so that we can see how the carbohydrate usage genes are distributed among samples. It will be helpful to have some meta data when looking at things in R.. Just so happens that I have placed a metadata file in this git repository that contains a lot of useful information about each of the samples "DEEP-CORE-METADATA.txt". Here are the lines that you need to run in R to begin the data exploration.. I find this to be truly enjoyable!
 
+#### If you don't have phyloseq installed, now would be a great time to install.. 
+
+#### here are the lines that should get you going with R. Open R studio or normal R and see if these lines will work for you.  
 
