@@ -127,5 +127,18 @@ Uncomment the following code to use hmmer, running the script with all other lin
     hmmscan --domtblout x_ANVIO-assembly-dbs/s_${SAMPLE}-cazy-out.dm /work/jennifer.bowen/DBs/CAZY/dbCAN-fam-HMMs.txt x_ANVIO-assembly-dbs/s_${SAMPLE}-prodigal.faa > x_ANVIO-assembly-dbs/s_${SAMPLE}-cazy.out
     
 
+### OK.  Strong work getting through that process! Now we are going to use a different approach to identify the cazy genes within each of our scaffolds. This process will use the anvio db that you created for each of your samples and run the cazy hmms using the anvi-run-hmms tool.  This will import the scaffold id, start and stop of the hit, and sequence for each of the hits to the cazy genes (if they are present in the assembly). Here is the script that we use to run this analysis. 
+
+    #!/bin/bash
+    #
+    #SBATCH --nodes=1
+    #SBATCH --tasks-per-node=20
+    #SBATCH --mem=100Gb
+    #SBATCH --time=10:00:00
+    #SBATCH --partition=short
+    #SBATCH --array=1-62
+    SAMPLE=$(sed -n "$SLURM_ARRAY_TASK_ID"p x_sample-names.txt)
+    #SAMPLE=10WP15_MG
+    anvi-run-hmms -c s_${SAMPLE}.db -H /work/jennifer.bowen/DBs/anvio_cazy -T 40
     
-    
+#### note that you can run an individual sample if you like by commenting out the "SAMPLE" line and swapping it with "SAMPLE=targetsample". This is useful if you want to add a sample to the analysis or if something goes wrong during the hmm run. The 
