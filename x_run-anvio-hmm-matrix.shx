@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=10
+#SBATCH --mem=100Gb
+#SBATCH --time=05:00:00
+#SBATCH --partition=short
+
+
+anvi-script-gen-hmm-hits-matrix-across-genomes -e x-external-genomes.txt --hmm-source anvio_cazy -o x_ANVIO-cazyme.txt
