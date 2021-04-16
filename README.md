@@ -175,4 +175,6 @@ Uncomment the following code to use hmmer, running the script with all other lin
     
 ### Now run the script above that will create the matrix.
 
-    sbatch 
+    sbatch x_run-anvio-hmm-matrix.shx
+    
+
