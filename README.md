@@ -187,7 +187,7 @@ Uncomment the following code to use hmmer, running the script with all other lin
     
 #### Now we need a metadata file that has details of each sample including the number of reads that went into the assembly so that we can normalize our hmm hit counts based on the number of reads available.  We need to think carefully about how to normalize.  Its possible that normalizing based on relative counts of each cazyme to the total number of cazyme hits is what we are after.. However, this doesn't normalize for the number of reads available to assemble, or the number of scaffolds in the assembly. This is an open discussion. For now we will just go with relative counts of each hmm to the total hmm hits and we can accomplish this with phyloseq.  
 
-#### I have placed the metadata file that you need in this git repo.. Move this file () into the directory that contains the x_ANVIO-cazyme.txt and x_ANVIO-cazyme-tax.txt files.  Then change the paths in the R code below and run each line to create a phyloseq object. 
+#### I have placed the metadata file that you need in this git repo.. Move this file (DEEP-CORE-sample-metadata) into the directory that contains the x_ANVIO-cazyme.txt and x_ANVIO-cazyme-tax.txt files.  Then change the paths in the R code below and run each line to create a phyloseq object. 
 
     library(vegan)
     library("phyloseq")
