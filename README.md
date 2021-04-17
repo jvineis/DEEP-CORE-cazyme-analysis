@@ -181,7 +181,36 @@ Uncomment the following code to use hmmer, running the script with all other lin
 
 #### If you don't have phyloseq installed, now would be a great time to install.. you can read about that here https://joey711.github.io/phyloseq/install.html
 
-#### In a terminal session on your own computer, make a directory where you will keep all of your cazyme analysis and use rsync or scp to download the x_ANVIO-cazyme.txt file created by the x_run-anvio-hmm-matrix.shx script above. The script below will produce a cazyme (taxonomy) file required by phyloseq.
+#### In a terminal session on your own computer, make a directory where you will keep all of your cazyme analysis and use rsync or scp to download the x_ANVIO-cazyme.txt file created by the x_run-anvio-hmm-matrix.shx script above. The script below will produce a cazyme (taxonomy) file required by phyloseq. You will find the files required to run this script in this git repo (create-cazyme-tax-file-for-phyloseq.py and CAZyDB-ec-info.txt.07-20-2017). The second argument is the fie created by the x_run-anvio-hmm-matrix.shx -- usually called x_ANVIO-cazyme.txt and the third argument is the name of the file that you want to use for your output cazyme(taxonomy) file.  
+
+    python create-cazyme-tax-file-for-phyloseq.py CAZyDB-ec-info.txt.07-20-2017 x_ANVIO-cazyme.txt x_ANVIO-cazyme-tax.txt
+    
+#### Now we need a metadata file that has details of each sample including the number of reads that went into the assembly so that we can normalize our hmm hit counts based on the number of reads available.  We need to think carefully about how to normalize.  Its possible that normalizing based on relative counts of each cazyme to the total number of cazyme hits is what we are after.. However, this doesn't normalize for the number of reads available to assemble, or the number of scaffolds in the assembly. This is an open discussion. For now we will just go with relative counts of each hmm to the total hmm hits and we can accomplish this with phyloseq.  
+
+#### I have placed the metadata file that you need in this git repo.. Move this file () into the directory that contains the x_ANVIO-cazyme.txt and x_ANVIO-cazyme-tax.txt files.  Then change the paths in the R code below and run each line to create a phyloseq object. 
+
+    library(vegan)
+    library("phyloseq")
+    library("ape")
+    
+    # change the paths below to reflect where your files are
+    # the matrix of anvio hmm hits
+    mat_dc = read.table("~/Dropbox/NITROGEN_ENRICH/CAZY/x_ANVIO-cazyme-normailzed.txt", header = TRUE, sep = "\t", row.names = 1)
+    # the cazyme (taxonomy) file that you created abover
+    tax_dc = read.table("~/Dropbox/NITROGEN_ENRICH/CAZY/CAZY-metadata.txt", header = TRUE, sep = "\t", row.names = 1)
+    # the metadata file that I created for you ""
+    meta_dc = read.table("~/Dropbox/NITROGEN_ENRICH/NITROGEN-ENRICH-METADATA.txt", header = TRUE, sep = "\t", row.names = 1)
+
+    mat_dc = as.matrix(t(mat_dc))
+    tax_dc = as.matrix(tax_dc)
+
+    OTU = otu_table(mat_dc, taxa_are_rows = TRUE)
+    TAX = tax_table(tax_dc)
+    META = sample_data(meta_dc)
+
+    dc_physeq = phyloseq(OTU,TAX,META)
+
+    
 
     
 
