@@ -187,7 +187,7 @@ Uncomment the following code to use hmmer, running the script with all other lin
     
 #### Now we need a metadata file that has details of each sample including the number of reads that went into the assembly so that we can normalize our hmm hit counts based on the number of reads available.  We need to think carefully about how to normalize.  Its possible that normalizing based on relative counts of each cazyme to the total number of cazyme hits is what we are after.. However, this doesn't normalize for the number of reads available to assemble, or the number of scaffolds in the assembly. This is an open discussion. For now we will just go with relative counts of each hmm to the total hmm hits and we can accomplish this with phyloseq.  
 
-#### I have placed the metadata file that you need in this git repo.. Move this file (DEEP-CORE-sample-metadata) into the directory that contains the x_ANVIO-cazyme.txt and x_ANVIO-cazyme-tax.txt files.  Then change the paths in the R code below and run each line to create a phyloseq object. 
+#### I have placed the metadata file that you need in this git repo.. Move this file (DEEP-CORE-sample-metadata.txt) into the directory that contains the x_ANVIO-cazyme.txt and x_ANVIO-cazyme-tax.txt files.  Then change the paths in the R code below and run each line to create a phyloseq object. 
 
     library(vegan)
     library("phyloseq")
@@ -195,11 +195,11 @@ Uncomment the following code to use hmmer, running the script with all other lin
     
     # change the paths below to reflect where your files are
     # the matrix of anvio hmm hits
-    mat_dc = read.table("~/Dropbox/NITROGEN_ENRICH/CAZY/x_ANVIO-cazyme-normailzed.txt", header = TRUE, sep = "\t", row.names = 1)
-    # the cazyme (taxonomy) file that you created abover
-    tax_dc = read.table("~/Dropbox/NITROGEN_ENRICH/CAZY/CAZY-metadata.txt", header = TRUE, sep = "\t", row.names = 1)
+    mat_dc = read.table("/your/cazy/path/x_ANVIO-cazyme.txt", header = TRUE, sep = "\t", row.names = 1)
+    # the cazyme (taxonomy) file that you created above
+    tax_dc = read.table("/your/cazy/path/x_ANVIO-cazyme-tax.txt", header = TRUE, sep = "\t", row.names = 1)
     # the metadata file that I created for you ""
-    meta_dc = read.table("~/Dropbox/NITROGEN_ENRICH/NITROGEN-ENRICH-METADATA.txt", header = TRUE, sep = "\t", row.names = 1)
+    meta_dc = read.table("/your/cazy/path/DEEP-CORE-sample-metadata.txt", header = TRUE, sep = "\t", row.names = 1)
 
     mat_dc = as.matrix(t(mat_dc))
     tax_dc = as.matrix(tax_dc)
@@ -210,13 +210,4 @@ Uncomment the following code to use hmmer, running the script with all other lin
 
     dc_physeq = phyloseq(OTU,TAX,META)
 
-    
-
-    
-
-
-
-    
-
-#### here are the lines that should get you going with R. Open R studio or normal R and see if these lines will work for you.  
 
