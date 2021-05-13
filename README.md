@@ -210,4 +210,20 @@ Uncomment the following code to use hmmer, running the script with all other lin
 
     dc_physeq = phyloseq(OTU,TAX,META)
 
+#### After some discussion, we have decided to try another normalization method which will yield the true relative abundance, described below. We plan to carry out analysis with both normalization methods and compare results, but believe that this updated method will be more rigorous.
 
+#### We used the following bash script to conduct this normalization, which outputs two text files: one with raw counts and the other with normalized counts. 
+
+    #!/bin/bash
+    #
+    #SBATCH --nodes=1
+    #SBATCH --time=24:00:00
+    #SBATCH --tasks-per-node=10
+    #SBATCH --partition=short
+    #SBATCH --mem=100Gb
+
+    python calculate-gene-coverage-from-faa-and-covstats.py -genes x_ALL-ANVIO-CAZY.faa -rc DEEP-CORE-METADATA-EXT.txt -o x_ALL-NORMALIZED-GENE-MATRIX.txt -cov /work/jennifer.bowen/JOE/DEEP-CORE/MAPPING/
+
+#### The python script used here takes both a FASTA file containing protein information from every CAZY hit found in our sample (x_ALL-ANVIO-CAZY.faa), our sample metadata (DEEP-CORE-METADATA.txt) and a list of sample names (x_ALL-NORMALIZED-GENE-MATRIX.txt). It also uses the coverage files which contain information about samples mapped onto themselves, including average coverage, length, and GC content. 
+
+#### For both normalization methods, we use the RStudio package phyloseq to conduct analysis and create plots, alongside anvio plots
