@@ -1,4 +1,4 @@
-# DEEP-CORE-cazyme-analysis
+# DEEP-CORE-functional-gene-analysis(carbon, nitrogen cycling)
 Analysis of short metagenomic sequencing reads for carbohydrate utilization
 
 ## We will be uploading files to the remote server during this project using 'scp', 'rsync', or 'wget', while in the directory you want the transer the file to.
@@ -127,6 +127,7 @@ Uncomment the following code to use hmmer, running the script with all other lin
     hmmscan --domtblout x_ANVIO-assembly-dbs/s_${SAMPLE}-cazy-out.dm /work/jennifer.bowen/DBs/CAZY/dbCAN-fam-HMMs.txt x_ANVIO-assembly-dbs/s_${SAMPLE}-prodigal.faa > x_ANVIO-assembly-dbs/s_${SAMPLE}-cazy.out
     
 
+# THIS SHOULD BE UP FRONT everything else above here could be moved to the bottom except for the anvio conda install information. 
 ### OK.  Strong work getting through that process! Now we are going to use a different approach to identify the cazy genes within each of our scaffolds. This process will use the anvio db that you created for each of your samples and run the cazy hmms using the anvi-run-hmms tool.  This will import the scaffold id, start and stop of the hit, and sequence for each of the hits to the cazy genes (if they are present in the assembly). Here is the script that we use to run this analysis. 
 
     #!/bin/bash
