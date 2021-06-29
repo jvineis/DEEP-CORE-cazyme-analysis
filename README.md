@@ -1,14 +1,6 @@
 # DEEP-CORE-functional-gene-analysis(carbon, nitrogen cycling)
 Analysis of short metagenomic sequencing reads for carbohydrate utilization
 
-## We will be uploading files to the remote server during this project using 'scp', 'rsync', or 'wget', while in the directory you want the transer the file to.
-
-    wget 'url'
-    scp 'local file location' 'remote server address'
-    rsync {NOT SURE}
-    
-scp and rsync (i think?) may also be used to securely copy files from the server to your local computer.
-
 ## First, we need to create an environment that contains all of the correct versions of the software that we want to use. We will use a conda environment to accomplish this. Here is the best way to get conda installed in your home environment.
 
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
@@ -42,11 +34,8 @@ scp and rsync (i think?) may also be used to securely copy files from the server
     source ~/anaconda3/bin/activate
     conda update conda -y
     conda env create -f anvio-6.2-environment.yml
-    conda env create -f 
 
-###### need to create an env for anvi 7.0
-
-### OK.  Strong work getting through that process! Now we are going to identify the cazy genes within each of our scaffolds. This process will use the anvio db that you created for each of your samples and run the cazy hmms using the anvi-run-hmms tool.  This will import the scaffold id, start and stop of the hit, and sequence for each of the hits to the cazy genes (if they are present in the assembly). Here is the script that we use to run this analysis. 
+### OK.  Strong work getting through that process! Now we are going to identify the cazy genes within each of our scaffolds from the assembled DEEP CORE samples. This process will use the anvio db that you created for each of your samples and run the cazy hmms using the anvi-run-hmms tool.  This will import the scaffold id, start and stop of the hit, and sequence for each of the hits to the cazy genes (if they are present in the assembly). Here is the script that we use to run this analysis. 
 
     #!/bin/bash
     #
